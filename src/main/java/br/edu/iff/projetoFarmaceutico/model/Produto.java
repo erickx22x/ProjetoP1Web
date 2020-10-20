@@ -65,14 +65,11 @@ public class Produto implements Serializable{
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.nome);
-        hash = 97 * hash + this.codigo;
+        int hash = 7;
+        hash = 41 * hash + this.codigo;
         return hash;
     }
 
@@ -91,12 +88,8 @@ public class Produto implements Serializable{
         if (this.codigo != other.codigo) {
             return false;
         }
-        if (!Objects.equals(this.nome, other.nome)) {
-            return false;
-        }
         return true;
     }
-    
-    
+   
     
 }

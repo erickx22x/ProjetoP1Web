@@ -13,7 +13,7 @@ public class Pedido implements Serializable {
     
     private Representante representante;
     private Cliente cliente;
-    private List<Produto> produtos;
+    private Produto produto;
 
     public Pedido() {
     }
@@ -66,16 +66,15 @@ public class Pedido implements Serializable {
         this.cliente = cliente;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
+   
     
-    
-
     @Override
     public int hashCode() {
         int hash = 3;

@@ -47,14 +47,11 @@ public class Cliente implements Serializable {
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
-    
-    
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 17 * hash + this.idCliente;
-        hash = 17 * hash + Objects.hashCode(this.cnpj);
+        hash = 97 * hash + this.idCliente;
         return hash;
     }
 
@@ -73,12 +70,8 @@ public class Cliente implements Serializable {
         if (this.idCliente != other.idCliente) {
             return false;
         }
-        if (!Objects.equals(this.cnpj, other.cnpj)) {
-            return false;
-        }
         return true;
     }
-    
-    
+       
     
 }

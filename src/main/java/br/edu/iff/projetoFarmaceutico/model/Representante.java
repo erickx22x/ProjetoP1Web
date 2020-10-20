@@ -57,14 +57,11 @@ public class Representante implements Serializable{
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + this.idRepresentante;
-        hash = 71 * hash + Objects.hashCode(this.nome);
+        int hash = 3;
+        hash = 67 * hash + this.idRepresentante;
         return hash;
     }
 
@@ -83,12 +80,13 @@ public class Representante implements Serializable{
         if (this.idRepresentante != other.idRepresentante) {
             return false;
         }
-        if (!Objects.equals(this.nome, other.nome)) {
-            return false;
-        }
         return true;
     }
-        
     
     
+
 }
+           
+    
+    
+
