@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,12 +27,15 @@ public class Pedido implements Serializable {
     
     @JsonManagedReference
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Representante representante;
     @JsonManagedReference
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Cliente cliente;
     @JsonManagedReference
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Produto produto;
 
     public Pedido() {
