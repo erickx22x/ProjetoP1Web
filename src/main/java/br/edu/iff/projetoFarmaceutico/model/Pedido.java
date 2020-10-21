@@ -1,18 +1,37 @@
 package br.edu.iff.projetoFarmaceutico.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Calendar;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+@Entity
 public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPedido;
-    private String dataPedido;
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataPedido;
+    @Column (nullable = false, scale = 2, precision = 2)    
     private Double quantProdutos;
-    private int idCliente;
     
+    @JsonManagedReference
+    @ManyToOne
     private Representante representante;
+    @JsonManagedReference
+    @ManyToOne
     private Cliente cliente;
+    @JsonManagedReference
+    @ManyToOne
     private Produto produto;
 
     public Pedido() {
@@ -26,11 +45,11 @@ public class Pedido implements Serializable {
         this.idPedido = idPedido;
     }
 
-    public String getDataPedido() {
+    public Calendar getDataPedido() {
         return dataPedido;
     }
 
-    public void setDataPedido(String dataPedido) {
+    public void setDataPedido(Calendar dataPedido) {
         this.dataPedido = dataPedido;
     }
 
@@ -40,14 +59,6 @@ public class Pedido implements Serializable {
 
     public void setQuantProdutos(Double quantProdutos) {
         this.quantProdutos = quantProdutos;
-    }
-
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
     }
 
     public Representante getRepresentante() {

@@ -1,17 +1,30 @@
 package br.edu.iff.projetoFarmaceutico.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+@Entity
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCliente;
+    @Column(nullable = false, length = 30)
     private String nome;
+    @Column (nullable = false, length = 18, unique = true, updatable = false)
     private String cnpj;
     
-    private List<Pedido> pedidos;
+    @JsonBackReference
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos = new ArrayList();
 
     public Cliente() {
     }
