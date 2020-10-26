@@ -12,6 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Pedido implements Serializable {
@@ -21,21 +29,33 @@ public class Pedido implements Serializable {
     private int idPedido;
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull(message="Preencha a data!")
+    @FutureOrPresent(message="Data do pedido não pode ser no passado.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar dataPedido;
-    @Column (nullable = false, scale = 2, precision = 2)    
-    private Double quantProdutos;
+    @Column (nullable = false)    
+    @NotBlank(message = "Quantidade de produtos não pode estar em branco.")
+    @Min(value = 1,message = "A quantidade mínima de produtos é 1.")
+    @Digits (integer = 5, fraction = 0, message = "O número deve ser inteiro e ter no máximo 5 dígitos.")
+    private int quantProdutos;
     
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(nullable = false)
+    @NotNull(message="campo obrigatório.")
+    @Size(max = 1, min = 1, message = "Deve haver apenas um representante para esse pedido.")
     private Representante representante;
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(nullable = false)
+    @Size(max = 1, min = 1, message = "Deve haver apenas um cliente para esse pedido.")
+    @NotNull(message="campo obrigatório.")
     private Cliente cliente;
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(nullable = false)
+    @Size(max = 1, min = 1, message = "Deve haver apenas um produto para esse pedido.")
+    @NotNull(message="campo obrigatório.")
     private Produto produto;
 
     public Pedido() {
@@ -57,11 +77,11 @@ public class Pedido implements Serializable {
         this.dataPedido = dataPedido;
     }
 
-    public Double getQuantProdutos() {
+    public int getQuantProdutos() {
         return quantProdutos;
     }
 
-    public void setQuantProdutos(Double quantProdutos) {
+    public void setQuantProdutos(int quantProdutos) {
         this.quantProdutos = quantProdutos;
     }
 

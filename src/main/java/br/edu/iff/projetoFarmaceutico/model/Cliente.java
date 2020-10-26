@@ -1,6 +1,6 @@
 package br.edu.iff.projetoFarmaceutico.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 
 @Entity
@@ -19,11 +22,16 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCliente;
     @Column(nullable = false, length = 30)
+    @NotBlank(message = "Nome do cliente é obrigatório.")
+    @Size(min = 2, max = 30, message = "Nome do cliente deve ter entre 3 e 30 caracteres.")
     private String nome;
     @Column (nullable = false, length = 18, unique = true, updatable = false)
+    @NotBlank(message = "CNPJ do cliente é obrigatório.")
+    @Size(min=18, max=18, message = "CNPJ deve ter 18 caracteres.")
+    @CNPJ(message="Formato inválido de CNPJ.")
     private String cnpj;
     
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList();
 

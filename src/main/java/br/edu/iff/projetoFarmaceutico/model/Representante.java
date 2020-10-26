@@ -1,6 +1,7 @@
 package br.edu.iff.projetoFarmaceutico.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
 
 
 @Entity
@@ -20,13 +26,21 @@ public class Representante implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idRepresentante;
     @Column(nullable = false)
+    @NotBlank(message = "Senha obrigatória.")
+    @Length(min = 8,message = "Senha deve ter no mínimo 8 caracteres.")
+    //@Pattern <<<<<, insira um padrão aqui
     private String senha;
     @Column(nullable = false, length = 30)
+    @NotBlank(message = "Nome do representante é obrigatório.")
+    @Size(min = 2, max = 30, message = "Nome do representante deve ter entre 3 e 30 caracteres.")
     private String nome;
     @Column(nullable = false, length = 55, unique = true, updatable = false)
+    @Email
+    @NotBlank(message="e-mail obrigatório.")
+    @Length(max=55)
     private String email;
     
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "representante")
     private List<Pedido> pedidos = new ArrayList<>();
 

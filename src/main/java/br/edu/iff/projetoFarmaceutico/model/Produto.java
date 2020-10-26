@@ -1,6 +1,7 @@
 package br.edu.iff.projetoFarmaceutico.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Produto implements Serializable{
@@ -18,15 +21,18 @@ public class Produto implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo;
     @Column(nullable = false, length = 30)
+    @NotBlank(message = "Nome do produto é obrigatório.")
+    @Size(min = 2, max = 30, message = "Nome do produto deve ter entre 3 e 30 caracteres.")
     private String nome;
-    @Column (nullable = false, scale = 2, precision = 2) 
+    @Column (nullable = false, scale = 2, precision = 2)
+    @NotBlank (message = "Dose deve ser preenchida.")
     private Double dose;
     @Column (nullable = false, length = 100)
     private String empresa;
     @Column (nullable = false, scale = 2, precision = 2)
     private Double preco;
     
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "produto")
     private List<Pedido> pedidos = new ArrayList();
 
