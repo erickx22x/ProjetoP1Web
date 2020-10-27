@@ -1,6 +1,5 @@
 package br.edu.iff.projetoFarmaceutico.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,8 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Produto implements Serializable{
@@ -22,14 +23,19 @@ public class Produto implements Serializable{
     private int codigo;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do produto é obrigatório.")
-    @Size(min = 2, max = 30, message = "Nome do produto deve ter entre 3 e 30 caracteres.")
+    @Size(min = 2, max = 30, message = "Nome do produto deve ter entre 2 e 30 caracteres.")
     private String nome;
     @Column (nullable = false, scale = 2, precision = 2)
-    @NotBlank (message = "Dose deve ser preenchida.")
-    private Double dose;
+    @Digits (integer = 5, fraction = 1, message = "Dose inválida.")
+    private Double dose;//=1.0 
+    //Não achei uma solução tecnicamente correta para deixar esse valor 1.0 default como definido nas restrições;
     @Column (nullable = false, length = 100)
+    @NotBlank (message = "Empresa deve ser preenchida.")
+    @Length(min = 2,message = "Nome de empresa inválido.")
     private String empresa;
     @Column (nullable = false, scale = 2, precision = 2)
+    @Digits (integer = 5, fraction = 2, message = "Valor inválido.")
+    @NotBlank(message="Digite o preço.")
     private Double preco;
     
     @JsonIgnore

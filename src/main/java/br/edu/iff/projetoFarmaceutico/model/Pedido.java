@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
@@ -30,7 +29,7 @@ public class Pedido implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message="Preencha a data!")
-    @FutureOrPresent(message="Data do pedido não pode ser no passado.")
+    @FutureOrPresent(message="Data do pedido não pode estar no passado.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar dataPedido;
     @Column (nullable = false)    
@@ -42,20 +41,20 @@ public class Pedido implements Serializable {
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(nullable = false)
-    @NotNull(message="campo obrigatório.")
+    @NotNull(message="Campo obrigatório.")
     @Size(max = 1, min = 1, message = "Deve haver apenas um representante para esse pedido.")
     private Representante representante;
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(nullable = false)
     @Size(max = 1, min = 1, message = "Deve haver apenas um cliente para esse pedido.")
-    @NotNull(message="campo obrigatório.")
+    @NotNull(message="Campo obrigatório.")
     private Cliente cliente;
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(nullable = false)
     @Size(max = 1, min = 1, message = "Deve haver apenas um produto para esse pedido.")
-    @NotNull(message="campo obrigatório.")
+    @NotNull(message="Campo obrigatório.")
     private Produto produto;
 
     public Pedido() {

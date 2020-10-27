@@ -23,7 +23,7 @@ public class Cliente implements Serializable {
     private int idCliente;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do cliente é obrigatório.")
-    @Size(min = 2, max = 30, message = "Nome do cliente deve ter entre 3 e 30 caracteres.")
+    @Size(min = 2, max = 30, message = "Nome do cliente deve ter entre  e 30 caracteres.")
     private String nome;
     @Column (nullable = false, length = 18, unique = true, updatable = false)
     @NotBlank(message = "CNPJ do cliente é obrigatório.")
