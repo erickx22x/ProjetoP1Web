@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
@@ -20,6 +21,7 @@ public class Produto implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotBlank (message = "Id não pode ser negativo.")
     private int codigo;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do produto é obrigatório.")
@@ -27,14 +29,15 @@ public class Produto implements Serializable{
     private String nome;
     @Column (nullable = false, scale = 2, precision = 2)
     @Digits (integer = 5, fraction = 1, message = "Dose inválida.")
-    private Double dose;//=1.0 
-    //Não achei uma solução tecnicamente correta para deixar esse valor 1.0 default como definido nas restrições;
+    @Positive (message = "Não coloque valores negativos.")
+    private Double dose = 1.0;
     @Column (nullable = false, length = 100)
     @NotBlank (message = "Empresa deve ser preenchida.")
     @Length(min = 2,message = "Nome de empresa inválido.")
     private String empresa;
     @Column (nullable = false, scale = 2, precision = 2)
     @Digits (integer = 5, fraction = 2, message = "Valor inválido.")
+    @Positive (message = "Não coloque valores negativos.")
     @NotBlank(message="Digite o preço.")
     private Double preco;
     

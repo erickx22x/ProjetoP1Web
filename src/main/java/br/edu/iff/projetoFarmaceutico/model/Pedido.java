@@ -1,6 +1,5 @@
 package br.edu.iff.projetoFarmaceutico.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,11 +23,11 @@ public class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotBlank(message = "Id não pode ser vazio.")
     private int idPedido;
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message="Preencha a data!")
-    @FutureOrPresent(message="Data do pedido não pode estar no passado.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar dataPedido;
     @Column (nullable = false)    
@@ -38,19 +36,19 @@ public class Pedido implements Serializable {
     @Digits (integer = 5, fraction = 0, message = "O número deve ser inteiro e ter no máximo 5 dígitos.")
     private int quantProdutos;
     
-    @JsonManagedReference
+    
     @ManyToOne
     @JoinColumn(nullable = false)
     @NotNull(message="Campo obrigatório.")
     @Size(max = 1, min = 1, message = "Deve haver apenas um representante para esse pedido.")
     private Representante representante;
-    @JsonManagedReference
+    
     @ManyToOne
     @JoinColumn(nullable = false)
     @Size(max = 1, min = 1, message = "Deve haver apenas um cliente para esse pedido.")
     @NotNull(message="Campo obrigatório.")
     private Cliente cliente;
-    @JsonManagedReference
+    
     @ManyToOne
     @JoinColumn(nullable = false)
     @Size(max = 1, min = 1, message = "Deve haver apenas um produto para esse pedido.")

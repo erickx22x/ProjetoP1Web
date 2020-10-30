@@ -20,6 +20,7 @@ public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotBlank(message = "Id não pode ser vazio.")
     private int idCliente;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do cliente é obrigatório.")

@@ -23,6 +23,7 @@ public class Representante implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotBlank (message = "Id não pode ser vazio.")
     private int idRepresentante;
     @Column(nullable = false)
     @NotBlank(message = "Senha obrigatória.")
