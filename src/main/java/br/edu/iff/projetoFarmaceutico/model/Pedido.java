@@ -2,6 +2,7 @@ package br.edu.iff.projetoFarmaceutico.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotBlank(message = "Id não pode ser vazio.")
-    private int idPedido;
+    private Long idPedido;
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message="Preencha a data!")
@@ -58,11 +59,11 @@ public class Pedido implements Serializable {
     public Pedido() {
     }
 
-    public int getIdPedido() {
+    public Long getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(int idPedido) {
+    public void setIdPedido(Long idPedido) {
         this.idPedido = idPedido;
     }
 
@@ -105,12 +106,11 @@ public class Pedido implements Serializable {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-   
-    
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + this.idPedido;
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.idPedido);
         return hash;
     }
 
@@ -126,12 +126,12 @@ public class Pedido implements Serializable {
             return false;
         }
         final Pedido other = (Pedido) obj;
-        if (this.idPedido != other.idPedido) {
+        if (!Objects.equals(this.idPedido, other.idPedido)) {
             return false;
         }
         return true;
     }
-
     
+      
    
 }

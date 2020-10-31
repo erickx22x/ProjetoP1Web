@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Produto implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotBlank (message = "Id não pode ser negativo.")
-    private int codigo;
+    private Long codigo;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do produto é obrigatório.")
     @Size(min = 2, max = 30, message = "Nome do produto deve ter entre 2 e 30 caracteres.")
@@ -48,11 +49,11 @@ public class Produto implements Serializable{
     public Produto() {
     }
 
-    public int getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
     
@@ -98,8 +99,8 @@ public class Produto implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 41 * hash + this.codigo;
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.codigo);
         return hash;
     }
 
@@ -115,7 +116,7 @@ public class Produto implements Serializable{
             return false;
         }
         final Produto other = (Produto) obj;
-        if (this.codigo != other.codigo) {
+        if (!Objects.equals(this.codigo, other.codigo)) {
             return false;
         }
         return true;

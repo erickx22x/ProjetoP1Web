@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Representante implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotBlank (message = "Id não pode ser vazio.")
-    private int idRepresentante;
+    private Long idRepresentante;
     @Column(nullable = false)
     @NotBlank(message = "Senha obrigatória.")
     @Length(min = 8,message = "Senha deve ter no mínimo 8 caracteres.")
@@ -47,11 +48,11 @@ public class Representante implements Serializable{
     public Representante() {
     }
     
-    public int getIdRepresentante() {
+    public Long getIdRepresentante() {
         return idRepresentante;
     }
 
-    public void setIdRepresentante(int idRepresentante) {
+    public void setIdRepresentante(Long idRepresentante) {
         this.idRepresentante = idRepresentante;
     }
 
@@ -89,10 +90,11 @@ public class Representante implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + this.idRepresentante;
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.idRepresentante);
         return hash;
     }
+
 
     @Override
     public boolean equals(Object obj) {

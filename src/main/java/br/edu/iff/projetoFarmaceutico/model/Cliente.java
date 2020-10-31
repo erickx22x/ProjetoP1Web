@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotBlank(message = "Id não pode ser vazio.")
-    private int idCliente;
+    private Long idCliente;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do cliente é obrigatório.")
     @Size(min = 2, max = 30, message = "Nome do cliente deve ter entre 2 e 30 caracteres.")
@@ -39,11 +40,11 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public int getIdCliente() {
+    public Long getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(Long idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -73,8 +74,8 @@ public class Cliente implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + this.idCliente;
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.idCliente);
         return hash;
     }
 
@@ -90,11 +91,13 @@ public class Cliente implements Serializable {
             return false;
         }
         final Cliente other = (Cliente) obj;
-        if (this.idCliente != other.idCliente) {
+        if (!Objects.equals(this.idCliente, other.idCliente)) {
             return false;
         }
         return true;
     }
+
+ 
        
     
 }
