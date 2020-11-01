@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long>{
-    @Query("SELECT p FROM Pedido p WHERE p.idPedido =:idPedido")
-    public List<Pedido> findById(@Param("idPedido")String idPedido);
-    
+    public Pedido findById(String idPedido);
+        
+    @Query("SELECT DISTINCT(p) FROM Representante r Join r.pedidos p WHERE r.idRepresentante =:idRepresentante")
+    public List<Pedido> findByRepresentanteId(@Param("idRepresentante")Long idRepresentante);
+    @Query("SELECT DISTINCT(p) FROM Cliente c Join c.pedidos p WHERE c.idCliente =:idCliente")
+    public List<Pedido> findByClienteId(@Param("idCliente")Long idCliente);
 }
