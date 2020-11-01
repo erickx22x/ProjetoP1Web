@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
 
@@ -24,7 +23,6 @@ public class Representante implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotBlank (message = "Id não pode ser vazio.")
     private Long idRepresentante;
     @Column(nullable = false)
     @NotBlank(message = "Senha obrigatória.")
@@ -33,7 +31,7 @@ public class Representante implements Serializable{
     private String senha;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do representante é obrigatório.")
-    @Size(min = 2, max = 30, message = "Nome do representante deve ter entre 3 e 30 caracteres.")
+    @Length(min = 2, max = 30, message = "Nome do representante deve ter entre 3 e 30 caracteres.")
     private String nome;
     @Column(nullable = false, length = 55, unique = true, updatable = false)
     @EmailValidation(message = "Email inválido.")

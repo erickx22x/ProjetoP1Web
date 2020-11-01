@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 
@@ -21,15 +21,14 @@ public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotBlank(message = "Id não pode ser vazio.")
     private Long idCliente;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do cliente é obrigatório.")
-    @Size(min = 2, max = 30, message = "Nome do cliente deve ter entre 2 e 30 caracteres.")
+    @Length(min = 2, max = 30, message = "Nome do cliente deve ter entre 2 e 30 caracteres.")
     private String nome;
     @Column (nullable = false, length = 18, unique = true, updatable = false)
     @NotBlank(message = "CNPJ do cliente é obrigatório.")
-    @Size(min=18, max=18, message = "CNPJ deve ter 18 caracteres.")
+    @Length(min=18, max=18, message = "CNPJ deve ter 18 caracteres.")
     @CNPJ(message="Formato inválido de CNPJ.")
     private String cnpj;
     

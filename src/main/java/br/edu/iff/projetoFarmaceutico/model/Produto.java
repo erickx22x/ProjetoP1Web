@@ -13,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -22,11 +22,10 @@ public class Produto implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotBlank (message = "Id não pode ser negativo.")
     private Long codigo;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do produto é obrigatório.")
-    @Size(min = 2, max = 30, message = "Nome do produto deve ter entre 2 e 30 caracteres.")
+    @Length(min = 2, max = 30, message = "Nome do produto deve ter entre 2 e 30 caracteres.")
     private String nome;
     @Column (nullable = false, scale = 2, precision = 2)
     @Digits (integer = 5, fraction = 1, message = "Dose inválida.")
@@ -39,7 +38,7 @@ public class Produto implements Serializable{
     @Column (nullable = false, scale = 2, precision = 2)
     @Digits (integer = 5, fraction = 2, message = "Valor inválido.")
     @Positive (message = "Não coloque valores negativos.")
-    @NotBlank(message="Digite o preço.")
+    @NotNull(message="Digite o preço.")
     private Double preco;
     
     @JsonIgnore
