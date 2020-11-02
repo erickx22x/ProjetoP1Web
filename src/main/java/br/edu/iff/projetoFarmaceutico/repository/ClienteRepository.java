@@ -11,5 +11,4 @@ import org.springframework.stereotype.Repository;
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
     @Query("SELECT Distinct(c) FROM Cliente c WHERE c.cnpj =:cnpj OR c.nome = :nome")
     public List<Cliente> findByCnpjOrName(@Param("cnpj")String cnpj, @Param ("nome")String nome);
-    
 }

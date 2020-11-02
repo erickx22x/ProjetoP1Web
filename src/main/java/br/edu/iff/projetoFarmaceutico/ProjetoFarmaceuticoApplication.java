@@ -10,7 +10,6 @@ import br.edu.iff.projetoFarmaceutico.repository.ProdutoRepository;
 import br.edu.iff.projetoFarmaceutico.repository.RepresentanteRepository;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
