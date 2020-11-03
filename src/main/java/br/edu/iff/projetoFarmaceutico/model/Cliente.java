@@ -34,7 +34,7 @@ public class Cliente implements Serializable {
     
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
-    private List<Pedido> pedidos = new ArrayList();
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente() {
     }

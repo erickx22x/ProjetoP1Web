@@ -43,7 +43,7 @@ public class Produto implements Serializable{
     
     @JsonIgnore
     @OneToMany(mappedBy = "produto")
-    private List<Pedido> pedidos = new ArrayList();
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Produto() {
     }

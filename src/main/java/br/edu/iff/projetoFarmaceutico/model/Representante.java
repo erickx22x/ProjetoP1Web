@@ -24,7 +24,7 @@ public class Representante implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRepresentante;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank(message = "Senha obrigatória.")
     @Length(min = 8,message = "Senha deve ter no mínimo 8 caracteres.")
     @PasswordValidation(message="Senha inválida.")

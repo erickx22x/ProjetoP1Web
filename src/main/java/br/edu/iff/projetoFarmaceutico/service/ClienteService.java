@@ -2,51 +2,79 @@ package br.edu.iff.projetoFarmaceutico.service;
 
 import br.edu.iff.projetoFarmaceutico.model.Cliente;
 import br.edu.iff.projetoFarmaceutico.repository.ClienteRepository;
-//import java.awt.print.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClienteService {
+
     @Autowired
     private ClienteRepository repo;
-    
-    /*
-    public List<Cliente> findALL(int page, int size){
-        Pageable p = PageRequest.of(page, size);       
+
+    public List<Cliente> findALL(int page, int size) {
+        Pageable p = PageRequest.of(page, size);
         return repo.findAll(p).toList();
     }
-    */
-    
-    public List<Cliente> findALL(){
+
+    public List<Cliente> findALL() {
         return repo.findAll();
     }
-    
-    public Cliente findById(Long id){
+
+    public Cliente findById(Long id) {
         Optional<Cliente> result = repo.findById(id);
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             throw new RuntimeException("Cliente não encontrado.");
         }
         return result.get();
     }
-    
-    public Cliente save(Cliente c){
-       try{
-         return repo.save(c);
-       }catch(Exception e){
-         throw new RuntimeException("Falha ao salvar cliente.");
-       }
+
+    public Cliente save(Cliente c) {
+        verificaCnpjNomeCadastrado(c.getCnpj(), c.getNome());
+        try {
+            return repo.save(c);
+        } catch (Exception e) {
+            throw new RuntimeException("Falha ao salvar cliente.");
+        }
     }
-    
-    public Cliente update(Cliente c){
+
+    private void verificaCnpjNomeCadastrado(String cnpj, String nome) {
+        List<Cliente> result = repo.findByCnpjOrName(cnpj, nome);
+        if (!result.isEmpty()) {
+            throw new RuntimeException("Email ou cnpj já cadastrado.");
+        }
+    }
+
+    public Cliente update(Cliente c) {
         Cliente obj = findById(c.getIdCliente());
-       try{
-         return repo.save(c);
-       }catch(Exception e){
-         throw new RuntimeException("Falha ao salvar cliente.");
-       }       
+     
+        try {
+            c.setNome(obj.getNome());
+            c.setCnpj(obj.getCnpj());
+            return repo.save(c);
+        } catch (Exception e) {
+            throw new RuntimeException("Falha ao atualizar cliente.");
+        }
+    }
+
+    public void delete(Long id) {
+        Cliente obj = findById(id);
+        verificaExclusaoClienteComPedido(obj);
+
+        try {
+            repo.delete(obj);
+        } catch (Exception e) {
+            throw new RuntimeException("Falha ao deletar o Cliente");
+        }
+    }
+
+    private void verificaExclusaoClienteComPedido(Cliente c) {
+
+        if (!c.getPedidos().isEmpty()) {
+            throw new RuntimeException("Não é possível excluir cliente pois ele ainda possui pedidos.");
+        }
     }
 }
