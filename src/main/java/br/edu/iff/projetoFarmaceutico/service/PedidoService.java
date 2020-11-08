@@ -51,6 +51,7 @@ public class PedidoService {
         verificaRepresentanteId(p.getRepresentante());
         verificaClienteId(p.getCliente());
         verificaProdutoId(p.getProduto());
+        verificaPedidoId(p);
         try {
             return repo.save(p);
         } catch (Exception e) {
@@ -90,6 +91,12 @@ public class PedidoService {
 
     private void verificaProdutoId(Produto r) {
         if (r.getCodigo() > 0) {
+            throw new RuntimeException("Não é possível salvar pedido pois id de produto já existe.");
+        }
+    }
+    
+     private void verificaPedidoId(Pedido p) {
+        if (p.getIdPedido() > 0) {
             throw new RuntimeException("Não é possível salvar pedido pois id de produto já existe.");
         }
     }
