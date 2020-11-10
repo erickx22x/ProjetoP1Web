@@ -1,5 +1,6 @@
 package br.edu.iff.projetoFarmaceutico.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
@@ -27,6 +28,7 @@ public class Pedido implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull(message="Preencha a data!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Calendar dataPedido;
     @Column (nullable = false)    
     @NotNull(message = "Quantidade de produtos não pode estar em branco.")

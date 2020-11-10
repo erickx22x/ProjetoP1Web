@@ -11,11 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long>{
     
-    /*public List<Pedido> findByRepresentanteIdAndClienteId(Long representanteId, Long clienteId, Pageable page);
-    public List<Pedido> findByClienteId(Long clienteId, Pageable page);
-    public List<Pedido> findByRepresentanteId(Long representanteId, Pageable page);
-    public List<Pedido> findByProdutoId(Long codigo, Pageable page);*/
-    
     @Query("SELECT DISTINCT(p) FROM Pedido p WHERE p.representante.idRepresentante =:idRepresentante AND p.cliente.idCliente =:idCliente")
     public List<Pedido> findByRepresentanteIdAndClienteId(@Param("idRepresentante")Long idRepresentante,@Param("idCliente")Long idCliente, Pageable page);
     @Query("SELECT DISTINCT(p) FROM Pedido p WHERE p.representante.idRepresentante =:idRepresentante")

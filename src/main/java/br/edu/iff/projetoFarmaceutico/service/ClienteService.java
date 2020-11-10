@@ -44,7 +44,7 @@ public class ClienteService {
     private void verificaCnpjNomeCadastrado(String cnpj, String nome) {
         List<Cliente> result = repo.findByCnpjOrName(cnpj, nome);
         if (!result.isEmpty()) {
-            throw new RuntimeException("Email ou cnpj já cadastrado.");
+            throw new RuntimeException("Cnpj ou Nome já cadastrado.");
         }
     }
 
@@ -52,7 +52,6 @@ public class ClienteService {
         Cliente obj = findById(c.getIdCliente());
      
         try {
-            c.setNome(obj.getNome());
             c.setCnpj(obj.getCnpj());
             return repo.save(c);
         } catch (Exception e) {
