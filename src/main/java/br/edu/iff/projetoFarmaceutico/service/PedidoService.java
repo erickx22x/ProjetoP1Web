@@ -1,9 +1,6 @@
 package br.edu.iff.projetoFarmaceutico.service;
 
-import br.edu.iff.projetoFarmaceutico.model.Cliente;
 import br.edu.iff.projetoFarmaceutico.model.Pedido;
-import br.edu.iff.projetoFarmaceutico.model.Produto;
-import br.edu.iff.projetoFarmaceutico.model.Representante;
 import br.edu.iff.projetoFarmaceutico.repository.PedidoRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +45,6 @@ public class PedidoService {
     }
 
     public Pedido save(Pedido p) {
-       /* verificaRepresentanteId(p.getRepresentante()); PROBLEMA TA AQUI
-        verificaClienteId(p.getCliente());
-        verificaProdutoId(p.getProduto());*/
-        verificaPedidoId(p.getIdPedido());
         try {
             return repo.save(p);
         } catch (Exception e) {
@@ -74,31 +67,6 @@ public class PedidoService {
             repo.delete(obj);
         } catch (Exception e) {
             throw new RuntimeException("Falha ao deletar pedido.");
-        }
-    }
-
-    private void verificaRepresentanteId(Representante r) {
-        if (r.getIdRepresentante() > 0) {
-            throw new RuntimeException("Não é possível salvar pedido pois este id de representante já existe.");
-        }
-    }
-
-    private void verificaClienteId(Cliente c) {
-        if (c.getIdCliente() > 0) {
-            throw new RuntimeException("Não é possível salvar pedido pois id de cliente já existe.");
-        }
-    }
-
-    private void verificaProdutoId(Produto r) {
-        if (r.getCodigo() > 0) {
-            throw new RuntimeException("Não é possível salvar pedido pois id de produto já existe.");
-        }
-    }
-    
-     private void verificaPedidoId(Long id) {
-        Optional<Pedido> result = repo.findById(id);
-        if (!result.isEmpty()) {
-            throw new RuntimeException("ID de pedido já existe.");
         }
     }
 }
