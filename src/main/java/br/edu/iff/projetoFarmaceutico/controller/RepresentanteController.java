@@ -43,7 +43,7 @@ public class RepresentanteController {
     }
     
     @PutMapping(path = "/{id}")
-    public ResponseEntity update(@PathVariable("id")Long id,@Valid @RequestBody Representante representante){
+    public ResponseEntity update(@PathVariable("id")Long id, @RequestBody Representante representante){
         representante.setIdRepresentante(id);
         service.update(representante);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

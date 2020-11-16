@@ -1,11 +1,13 @@
 package br.edu.iff.projetoFarmaceutico.service;
 
+import br.edu.iff.projetoFarmaceutico.exception.NotFoundException;
 import br.edu.iff.projetoFarmaceutico.model.Cliente;
 import br.edu.iff.projetoFarmaceutico.repository.ClienteRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ public class ClienteService {
     public Cliente findById(Long id) {
         Optional<Cliente> result = repo.findById(id);
         if (result.isEmpty()) {
-            throw new RuntimeException("Cliente não encontrado.");
+            throw new NotFoundException("Cliente não encontrado.");
         }
         return result.get();
     }
@@ -55,6 +57,13 @@ public class ClienteService {
             c.setCnpj(obj.getCnpj());
             return repo.save(c);
         } catch (Exception e) {
+            Throwable t = e;
+            while (t.getCause()!=null){
+                t = t.getCause();
+                if(t instanceof ConstraintViolationException){
+                    throw((ConstraintViolationException)t);
+                }
+            }
             throw new RuntimeException("Falha ao atualizar cliente.");
         }
     }

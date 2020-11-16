@@ -42,7 +42,7 @@ public class ClienteController {
     }
     
     @PutMapping(path ="/{id}")
-    public ResponseEntity updade(@PathVariable("id")Long id,@Valid @RequestBody Cliente cliente){
+    public ResponseEntity update(@PathVariable("id")Long id,@RequestBody Cliente cliente){
         cliente.setIdCliente(id);
         service.update(cliente);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

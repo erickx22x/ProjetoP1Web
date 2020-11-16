@@ -1,9 +1,11 @@
 package br.edu.iff.projetoFarmaceutico.service;
 
+import br.edu.iff.projetoFarmaceutico.exception.NotFoundException;
 import br.edu.iff.projetoFarmaceutico.model.Produto;
 import br.edu.iff.projetoFarmaceutico.repository.ProdutoRepository;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +29,7 @@ public class ProdutoService {
     public Produto findById(Long id) {
         Optional<Produto> result = repo.findById(id);
         if (result.isEmpty()) {
-            throw new RuntimeException("Produto não encontrado.");
+            throw new NotFoundException("Produto não encontrado.");
         }
         return result.get();
     }
@@ -45,6 +47,13 @@ public class ProdutoService {
         try {
             return repo.save(c);
         } catch (Exception e) {
+            Throwable t = e;
+            while (t.getCause()!=null){
+                t = t.getCause();
+                if(t instanceof ConstraintViolationException){
+                    throw((ConstraintViolationException)t);
+                }
+            }
             throw new RuntimeException("Falha ao atualizar produto.");
         }
     }

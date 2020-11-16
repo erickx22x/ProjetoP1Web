@@ -43,7 +43,7 @@ public class ProdutoController {
     }
     
     @PutMapping(path = "/{codigo}")
-    public ResponseEntity updade(@PathVariable("codigo")Long id,@Valid @RequestBody Produto produto){
+    public ResponseEntity update(@PathVariable("codigo")Long id,@RequestBody Produto produto){
         produto.setCodigo(id);
         service.update(produto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

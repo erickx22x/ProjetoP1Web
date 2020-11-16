@@ -1,5 +1,6 @@
 package br.edu.iff.projetoFarmaceutico.service;
 
+import br.edu.iff.projetoFarmaceutico.exception.NotFoundException;
 import br.edu.iff.projetoFarmaceutico.model.Pedido;
 import br.edu.iff.projetoFarmaceutico.repository.PedidoRepository;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
+import javax.validation.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,7 +41,7 @@ public class PedidoService {
     public Pedido findById(Long id) {
         Optional<Pedido> obj = repo.findById(id);
         if (obj.isEmpty()) {
-            throw new RuntimeException("Pedido não encontrado.");
+            throw new NotFoundException("Pedido não encontrado.");
         }
         return obj.get();
     }
@@ -57,6 +59,13 @@ public class PedidoService {
         try {
             return repo.save(p);
         } catch (Exception e) {
+            Throwable t = e;
+            while (t.getCause()!=null){
+                t = t.getCause();
+                if(t instanceof ConstraintViolationException){
+                    throw((ConstraintViolationException)t);
+                }
+            }
             throw new RuntimeException("Falha ao atualizar pedido.");
         }
     }

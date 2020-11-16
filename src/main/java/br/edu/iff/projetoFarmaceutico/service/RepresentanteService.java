@@ -1,9 +1,11 @@
 package br.edu.iff.projetoFarmaceutico.service;
 
+import br.edu.iff.projetoFarmaceutico.exception.NotFoundException;
 import br.edu.iff.projetoFarmaceutico.model.Representante;
 import br.edu.iff.projetoFarmaceutico.repository.RepresentanteRepository;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +28,7 @@ public class RepresentanteService {
     public Representante findById(Long id){
         Optional<Representante> result = repo.findById(id);
         if(result.isEmpty()){
-            throw new RuntimeException("Representante não encontrado.");
+            throw new NotFoundException("Representante não encontrado.");
         }
         return result.get();
     }
@@ -49,6 +51,13 @@ public class RepresentanteService {
          r.setSenha(obj.getSenha());
          return repo.save(r);
        }catch(Exception e){
+          Throwable t = e;
+            while (t.getCause()!=null){
+                t = t.getCause();
+                if(t instanceof ConstraintViolationException){
+                    throw((ConstraintViolationException)t);
+                }
+            }
          throw new RuntimeException("Falha ao atualizar representante.");
        }       
     }
