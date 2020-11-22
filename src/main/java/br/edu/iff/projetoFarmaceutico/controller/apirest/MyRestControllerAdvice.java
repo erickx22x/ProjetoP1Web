@@ -1,4 +1,4 @@
-package br.edu.iff.projetoFarmaceutico.controller;
+package br.edu.iff.projetoFarmaceutico.controller.apirest;
 
 import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;

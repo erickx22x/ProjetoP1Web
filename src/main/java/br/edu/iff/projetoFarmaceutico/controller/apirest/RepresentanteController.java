@@ -1,7 +1,7 @@
-package br.edu.iff.projetoFarmaceutico.controller;
+package br.edu.iff.projetoFarmaceutico.controller.apirest;
 
-import br.edu.iff.projetoFarmaceutico.model.Cliente;
-import br.edu.iff.projetoFarmaceutico.service.ClienteService;
+import br.edu.iff.projetoFarmaceutico.model.Representante;
+import br.edu.iff.projetoFarmaceutico.service.RepresentanteService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,40 +16,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
-@RequestMapping(path = "/apirest/clientes")
-public class ClienteController {
+@RequestMapping(path = "/apirest/representantes")
+public class RepresentanteController {
     @Autowired
-    private ClienteService service;
-       
+    private RepresentanteService service;
+    
     @GetMapping
     public ResponseEntity getAll(
-        @RequestParam(name = "page", defaultValue = "0",required = false )int page,
-        @RequestParam(name = "size", defaultValue = "10",required = false )int size){
-        return ResponseEntity.ok(service.findALL(page, size));
+        @RequestParam(name = "page", defaultValue = "0", required = false)int page,
+        @RequestParam(name = "size", defaultValue = "10", required = false)int size){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findALL(page,size));
     }
     
     @GetMapping (path = "/{id}")
     public ResponseEntity getOne(@PathVariable("id")Long id){
-        return ResponseEntity.ok(service.findById(id));
+       return ResponseEntity.ok(service.findById(id));
     }
     
     @PostMapping
-    public ResponseEntity save(@Valid @RequestBody Cliente cliente){
-        cliente.setIdCliente(null);
-        service.save(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
+    public ResponseEntity save(@Valid @RequestBody Representante representante){
+        representante.setIdRepresentante(null);
+        service.save(representante);
+        return ResponseEntity.status(HttpStatus.CREATED).body(representante);
     }
     
-    @PutMapping(path ="/{id}")
-    public ResponseEntity update(@PathVariable("id")Long id,@RequestBody Cliente cliente){
-        cliente.setIdCliente(id);
-        service.update(cliente);
+    @PutMapping(path = "/{id}")
+    public ResponseEntity update(@PathVariable("id")Long id, @RequestBody Representante representante){
+        representante.setIdRepresentante(id);
+        service.update(representante);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity delete(@PathVariable("id")Long id){
+    public ResponseEntity delete(@PathVariable("id") Long id){
         service.delete(id);
         return ResponseEntity.ok().build();
     }

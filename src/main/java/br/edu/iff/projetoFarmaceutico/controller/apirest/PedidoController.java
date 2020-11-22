@@ -1,4 +1,4 @@
-package br.edu.iff.projetoFarmaceutico.controller;
+package br.edu.iff.projetoFarmaceutico.controller.apirest;
 
 import br.edu.iff.projetoFarmaceutico.model.Pedido;
 import br.edu.iff.projetoFarmaceutico.service.PedidoService;
