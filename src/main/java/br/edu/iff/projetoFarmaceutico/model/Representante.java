@@ -35,7 +35,7 @@ public class Representante implements Serializable{
     @NotBlank(message = "Nome do representante é obrigatório.")
     @Length(min = 2, max = 30, message = "Nome do representante deve ter entre 3 e 30 caracteres.")
     private String nome;
-    @Column(nullable = false, length = 55, unique = true, updatable = false)
+    @Column(nullable = false, length = 55, unique = true, updatable = true)
     @EmailValidation(message = "Email inválido.")
     @NotBlank(message="Email obrigatório.")
     @Length(max=55)

@@ -44,10 +44,29 @@ public class RepresentanteService {
        
     }
     
-    public Representante update(Representante r){
+//    public Representante update(Representante r, String senhaAtual, String novaSenha, String confirmarNovaSenha) {
+//        Representante obj = findById(r.getIdRepresentante());
+//        
+//        try {
+//            r.setSenha(obj.getSenha());
+//            return repo.save(r);
+//        } catch (Exception e) {
+//            Throwable t = e;
+//            while (t.getCause()!=null){
+//                t = t.getCause();
+//                if(t instanceof ConstraintViolationException){
+//                    throw((ConstraintViolationException)t);
+//                }
+//            }
+//            throw new RuntimeException("Falha ao atualizar representante.");
+//        }
+//    }
+    
+    public Representante update(Representante r, String senhaAtual, String novaSenha, String confirmarNovaSenha){
        Representante obj = findById(r.getIdRepresentante());
+       alterarSenha(obj, senhaAtual, novaSenha, confirmarNovaSenha);
        try{
-         r.setEmail(obj.getEmail());
+         //r.setEmail(obj.getEmail());
          r.setSenha(obj.getSenha());
          return repo.save(r);
        }catch(Exception e){
@@ -76,6 +95,18 @@ public class RepresentanteService {
         Representante result = repo.findByEmail(email);
         if(result!=null){
             throw new RuntimeException("Email já cadastrado.");
+        }
+    }
+    
+    private void alterarSenha(Representante obj, String senhaAtual, String novaSenha, String confirmarNovaSenha) {
+        if (!senhaAtual.isBlank() && !novaSenha.isBlank() && !confirmarNovaSenha.isBlank()) {
+            if (!senhaAtual.equals(obj.getSenha())) {
+                throw new RuntimeException("Senha atual está incorreta.");
+            }
+            if (!novaSenha.equals(confirmarNovaSenha)) {
+                throw new RuntimeException("Nova Senha e Confirmar Nova Senha não conferem.");
+            }
+            obj.setSenha(novaSenha);
         }
     }
     
