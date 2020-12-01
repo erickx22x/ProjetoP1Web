@@ -73,13 +73,13 @@ public class ProdutoViewController {
             model.addAttribute("produto", produto);
             return "formProduto";
         } catch (Exception e) {
-            model.addAttribute("msgErros", new ObjectError("Produto", e.getMessage()));
+            model.addAttribute("msgErros", new ObjectError("produto", e.getMessage()));
             return "formProduto";
         }
     }
     
     @GetMapping(path = "/{codigo}/deletar")
-    public String deletar(@PathVariable("id")Long id) {
+    public String deletar(@PathVariable("codigo")Long id) {
         service.delete(id);
         return "redirect:/produtos";
     }

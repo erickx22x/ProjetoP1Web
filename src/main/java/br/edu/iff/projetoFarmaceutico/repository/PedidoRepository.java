@@ -19,5 +19,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
     public List<Pedido> findByClienteId(@Param("idCliente")Long idCliente, Pageable page);
     @Query("SELECT DISTINCT(p) FROM Pedido p WHERE p.produto.codigo =:codigoProduto")
     public List<Pedido> findByProdutoId(@Param("codigoProduto")Long codigoProduto, Pageable page);
+    @Query("SELECT DISTINCT(p) FROM Pedido p WHERE p.representante.idRepresentante =:idRepresentante")
+    public List<Pedido> findByRepresentanteId(@Param("idRepresentante")Long idRepresentante);
 
 }

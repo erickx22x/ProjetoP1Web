@@ -62,9 +62,9 @@ public class RepresentanteService {
 //        }
 //    }
     
-    public Representante update(Representante r, String senhaAtual, String novaSenha, String confirmarNovaSenha){
+    public Representante update(Representante r, String senhaAtual, String novaSenha, String confirmarSenha){
        Representante obj = findById(r.getIdRepresentante());
-       alterarSenha(obj, senhaAtual, novaSenha, confirmarNovaSenha);
+       alterarSenha(obj, senhaAtual, novaSenha, confirmarSenha);
        try{
          //r.setEmail(obj.getEmail());
          r.setSenha(obj.getSenha());
@@ -98,12 +98,12 @@ public class RepresentanteService {
         }
     }
     
-    private void alterarSenha(Representante obj, String senhaAtual, String novaSenha, String confirmarNovaSenha) {
-        if (!senhaAtual.isBlank() && !novaSenha.isBlank() && !confirmarNovaSenha.isBlank()) {
+    private void alterarSenha(Representante obj, String senhaAtual, String novaSenha, String confirmarSenha) {
+        if (!senhaAtual.isBlank() && !novaSenha.isBlank() && !confirmarSenha.isBlank()) {
             if (!senhaAtual.equals(obj.getSenha())) {
                 throw new RuntimeException("Senha atual está incorreta.");
             }
-            if (!novaSenha.equals(confirmarNovaSenha)) {
+            if (!novaSenha.equals(confirmarSenha)) {
                 throw new RuntimeException("Nova Senha e Confirmar Nova Senha não conferem.");
             }
             obj.setSenha(novaSenha);

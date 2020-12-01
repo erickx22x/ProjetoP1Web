@@ -20,6 +20,11 @@ public class PedidoService {
     public List<Pedido> findALL() {
         return repo.findAll();
     }
+    
+    public List<Pedido> findALL(Long representanteId) {
+        return repo.findByRepresentanteId(representanteId);
+
+    }
 
     public List<Pedido> findAll(int page, int size, Long representanteId, Long clienteId, Long produtoCodigo) {
         Pageable p = PageRequest.of(page, size);

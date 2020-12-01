@@ -1,11 +1,52 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragmentos :: imports-css(title='Produtos')}">
+        <title>title</title>
     </head>
     <body>
-        <div>Produto</div>
+        <div th:replace="~{fragmentos :: barramenu(pagina='produtos')}"/>
+        <div class="container" style="width: 60%; margin-top: 20px">
+            <div class="card-header">
+                <h4>Cadastro de Produtos
+                    <a class="btn btn-primary float-right" th:href="@{~/produtos}" role="button">voltar</a>
+                </h4>
+            </div>
+            <div th:replace="~{fragmentos::mensagens}"></div>
+
+            <form th:object="${produto}" th:action="@{~/produtos/produto/{id}(id=${produto.codigo})}" method="post" class="card-body">
+                <input type="hidden" th:field="*{codigo}"/>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="nome">Produto:</label>
+                        <input th:field="*{nome}" type="text" class="form-control" placeholder="Nome" required="required" maxlength="30"/>
+                    </div>
+                    
+                    <div class="form-group col-md-10">
+                        <label for="dose">Dose:</label>
+                        <input th:field=" *{dose}" type="number" step="0.01" min="1.00" max="9999.99" class="form-control" placeholder="Dose" required="required"/>
+                    </div>
+                    
+                    <div class="form-group col-md-6">
+                        <label for="empresa">Empresa:</label>
+                        <input th:field="*{empresa}" type="text" class="form-control" placeholder="Empresa" required="required" maxlength="100"/>
+                    </div>
+                    
+                    <div class="form-group col-md-10">
+                        <label for="preco">Preço:</label>
+                        <input th:field=" *{preco}" type="number" min="0.00" max="99999.99" step="0.01" class="form-control" placeholder="Preço" required="required"/>
+                    </div>
+                             
+
+                </div>
+
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-success" value="salvar"/>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div th:replace="~{fragmentos :: imports-js}"/>
     </body>
 </html>

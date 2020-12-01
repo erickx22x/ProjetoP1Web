@@ -22,6 +22,9 @@
                             <li class="nav-item" th:classappend="${pagina=='representantes'?'active':''}">
                                 <a class="nav-link" th:href="@{~/representantes}">Representantes</a>
                             </li>
+                             <li class="nav-item" th:classappend="${pagina=='pedidos'?'active':''}">
+                                <a class="nav-link" th:href="@{~/pedidos}">Pedidos</a>
+                            </li>
                             <li class="nav-item" th:classappend="${pagina=='clientes'?'active':''}">
                                 <a class="nav-link" th:href="@{~/clientes}">Clientes</a>
                             </li>
@@ -37,7 +40,7 @@
         
         <div th:fragment="mensagens">
             <div th:if="${not #strings.isEmpty(msgErros)}" class="alert alert-danger alert-dismissible fase show" role="alert">
-                <p th:each="msg: ${msgErrors}" th:text="${msg.getDefaultMessage()}"></p>
+                <p th:each="msg: ${msgErros}" th:text="${msg.getDefaultMessage()}"></p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

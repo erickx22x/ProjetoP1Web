@@ -57,7 +57,7 @@ public class RepresentanteViewController {
             model.addAttribute("representante", new Representante());
             return "formRepresentante";
         } catch (Exception e) {
-            model.addAttribute("msgErros", new ObjectError("Representante", e.getMessage()));
+            model.addAttribute("msgErros", new ObjectError("representante", e.getMessage()));
             return "formRepresentante";
         }
     }

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/pedidos")
+@RequestMapping(path = "/representantes/{idRepresentante}/pedidos")
 public class PedidoViewController {
 
     @Autowired
@@ -34,8 +34,9 @@ public class PedidoViewController {
     private ProdutoService produtoService;
 
     @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("pedidos", service.findALL());
+    public String getAll(@PathVariable("idRepresentante") Long idRepresentante, Model model) {
+        model.addAttribute("pedidos", service.findALL(idRepresentante));
+        model.addAttribute("idRepresentante", idRepresentante);
         return "pedidos";
     }
 

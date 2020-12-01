@@ -14,8 +14,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.RestController;
 
-@RestControllerAdvice
+@RestControllerAdvice(annotations = RestController.class)
 public class MyRestControllerAdvice {
     
     @ExceptionHandler(ConstraintViolationException.class)
@@ -29,8 +30,7 @@ public class MyRestControllerAdvice {
         for(ConstraintViolation cv: e.getConstraintViolations()){
             PropertyError p = new PropertyError(cv.getPropertyPath().toString(), cv.getMessage());
             erro.getErrors().add(p);
-        }
-        
+        }        
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erro);
     }    
     
@@ -45,12 +45,23 @@ public class MyRestControllerAdvice {
         for(FieldError fe : e.getBindingResult().getFieldErrors()){
             PropertyError p = new PropertyError(fe.getField(),fe.getDefaultMessage());
             erro.getErrors().add(p);
-        }
-        
+        }        
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erro);
-    }     
+    } 
     
     @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity erroPadrao(NotFoundException e, HttpServletRequest request){
+        Error erro = new Error(
+                Calendar.getInstance(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.name(),
+                e.getMessage(),
+                request.getRequestURI());
+        
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+    }    
+    
+    @ExceptionHandler(Exception.class)
     public ResponseEntity erroPadrao(Exception e, HttpServletRequest request){
         Error erro = new Error(
                 Calendar.getInstance(),
@@ -61,16 +72,5 @@ public class MyRestControllerAdvice {
         
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
     }    
-    
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity erroPadrao(NotFoundException e, HttpServletRequest request){
-        Error erro = new Error(
-                Calendar.getInstance(),
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.name(),
-                e.getMessage(),
-                request.getRequestURI());
-        
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
-    }
+
 }

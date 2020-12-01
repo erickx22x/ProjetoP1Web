@@ -59,10 +59,10 @@ public class RepresentanteController {
     public ResponseEntity alterarSenha(@PathVariable("id") Long id,
             @RequestParam(name = "senhaAtual", defaultValue = "", required = true) String senhaAtual,
             @RequestParam(name = "novaSenha", defaultValue = "", required = true) String novaSenha,
-            @RequestParam(name = "confirmarNovaSenha", defaultValue = "", required = true) String confirmarNovaSenha){
+            @RequestParam(name = "confirmarSenha", defaultValue = "", required = true) String confirmarSenha){
         
         Representante r = service.findById(id);
-        service.update(r, senhaAtual, novaSenha, confirmarNovaSenha);
+        service.update(r, senhaAtual, novaSenha, confirmarSenha);
         return ResponseEntity.ok().build();
     }
 }
