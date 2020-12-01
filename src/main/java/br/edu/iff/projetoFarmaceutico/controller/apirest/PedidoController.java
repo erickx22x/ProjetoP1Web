@@ -2,7 +2,6 @@ package br.edu.iff.projetoFarmaceutico.controller.apirest;
 
 import br.edu.iff.projetoFarmaceutico.model.Pedido;
 import br.edu.iff.projetoFarmaceutico.service.PedidoService;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class PedidoController {
         @RequestParam(name = "clienteId", defaultValue = "0", required = false)Long clienteId,
         @RequestParam(name = "produtoCodigo", defaultValue = "0", required = false)Long produtoCodigo){
         
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(page, size, representanteId, clienteId, produtoCodigo));
+        return ResponseEntity.ok(service.findAll(page, size, representanteId, clienteId, produtoCodigo));
     }
     
     @GetMapping(path="/{id}")
@@ -40,7 +39,7 @@ public class PedidoController {
     }
     
     @PostMapping
-    public ResponseEntity save(@Valid @RequestBody Pedido pedido){
+    public ResponseEntity save(@RequestBody Pedido pedido){
         pedido.setIdPedido(null);
         service.save(pedido);
         return ResponseEntity.status(HttpStatus.CREATED).body(pedido);

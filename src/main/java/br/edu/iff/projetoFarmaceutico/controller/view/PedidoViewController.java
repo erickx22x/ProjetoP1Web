@@ -41,19 +41,20 @@ public class PedidoViewController {
     }
 
     @GetMapping(path = "/pedido")
-    public String cadastro(Model model) {
+    public String cadastro(@PathVariable ("idRepresentante") Long idRepresentante, Model model) {
         model.addAttribute("pedido", new Pedido());
-        model.addAttribute("representantes", representanteService.findALL());
+        model.addAttribute("idRepresentante", idRepresentante);
         model.addAttribute("clientes", clienteService.findALL());
         model.addAttribute("produtos", produtoService.findALL());
-
         return "formPedido";
     }
 
     @PostMapping(path = "/pedido")
-    public String save(@Valid @ModelAttribute Pedido pedido, BindingResult result, Model model) {
+    public String save(@PathVariable ("idRepresentante") Long idRepresentante,
+            @Valid @ModelAttribute Pedido pedido,
+            BindingResult result, Model model){
         
-        model.addAttribute("representantes", representanteService.findALL());
+        model.addAttribute("idRepresentante", idRepresentante);
         model.addAttribute("clientes", clienteService.findALL());
         model.addAttribute("produtos", produtoService.findALL());
         
@@ -82,18 +83,21 @@ public class PedidoViewController {
     }
     
     @GetMapping(path = "/pedido/{id}")
-    public String alterar(@PathVariable("id")Long id, Model model) {
+    public String alterar(@PathVariable("idRepresentante") Long idRepresentante, @PathVariable("id") Long id, Model model) {
         model.addAttribute("pedido",service.findById(id));
-        model.addAttribute("representantes", representanteService.findALL());
+        model.addAttribute("idRepresentante",idRepresentante);
         model.addAttribute("clientes", clienteService.findALL());
         model.addAttribute("produtos", produtoService.findALL());
         return "formPedido";
     }
     
     @PostMapping(path = "/pedido/{id}")
-    public String update(@Valid @ModelAttribute Pedido pedido, BindingResult result, @PathVariable("id")Long id, Model model) {
+    public String update(@PathVariable("idRepresentante") Long idRepresentante,
+            @PathVariable("id") Long id,
+            @Valid @ModelAttribute Pedido pedido,
+            BindingResult result, Model model) {
 
-        model.addAttribute("representantes", representanteService.findALL());
+        model.addAttribute("idRepresentante",idRepresentante);
         model.addAttribute("clientes", clienteService.findALL());
         model.addAttribute("produtos", produtoService.findALL());
                 
@@ -113,16 +117,16 @@ public class PedidoViewController {
             service.update(pedido);
             model.addAttribute("msgSucesso", "Pedido atualizado com sucesso.");
             model.addAttribute("pedido", pedido);
-            return "formProduto";
+            return "formPedido";
         } catch (Exception e) {
             model.addAttribute("msgErros", new ObjectError("Pedido", e.getMessage()));
             return "formPedido";
         }
     }
     
-    @GetMapping(path = "/{id}/deletar")
-    public String deletar(@PathVariable("id")Long id) {
+    @GetMapping(path = "/{idPedido}/deletar")
+    public String deletar(@PathVariable("idRepresentante")Long idRepresentante, @PathVariable("idPedido")Long id) {
         service.delete(id);
-        return "redirect:/pedidos";
+        return "redirect:/representantes/"+idRepresentante+"/pedidos";
     }
 }

@@ -3,6 +3,7 @@ package br.edu.iff.projetoFarmaceutico.service;
 import br.edu.iff.projetoFarmaceutico.exception.NotFoundException;
 import br.edu.iff.projetoFarmaceutico.model.Pedido;
 import br.edu.iff.projetoFarmaceutico.repository.PedidoRepository;
+import java.util.Calendar;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -53,8 +54,16 @@ public class PedidoService {
 
     public Pedido save(Pedido p) {
         try {
+            p.setDataPedido(Calendar.getInstance());
             return repo.save(p);
         } catch (Exception e) {
+            Throwable t = e;
+            while (t.getCause()!=null){
+                t = t.getCause();
+                if(t instanceof ConstraintViolationException){
+                    throw((ConstraintViolationException) t);
+                }
+            }
             throw new RuntimeException("Falha ao salvar Pedido.");
         }
     }
@@ -62,6 +71,8 @@ public class PedidoService {
     public Pedido update(Pedido p) {
         Pedido obj = findById(p.getIdPedido());
         try {
+            p.setDataPedido(Calendar.getInstance());
+            p.setRepresentante(obj.getRepresentante());
             return repo.save(p);
         } catch (Exception e) {
             Throwable t = e;
