@@ -72,7 +72,7 @@ public class PedidoService {
         Pedido obj = findById(p.getIdPedido());
         try {
             p.setDataPedido(Calendar.getInstance());
-            p.setRepresentante(obj.getRepresentante());
+//            p.setRepresentante(obj.getRepresentante());
             return repo.save(p);
         } catch (Exception e) {
             Throwable t = e;

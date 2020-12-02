@@ -15,6 +15,11 @@
 
             <div class="card" th:each="pedido : ${pedidos}">
                 <div class="card-body">
+                    
+                    <div class="card-text">
+                        <span>Número do pedido:</span>
+                        <span th:text="${pedido.idPedido}"></span>
+                    </div>
                     <div class="card-text">
                         <span>Cliente:</span>
                         <span th:text="${pedido.cliente.nome}"></span>

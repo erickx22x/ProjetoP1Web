@@ -43,6 +43,7 @@ public class PedidoViewController {
     @GetMapping(path = "/pedido")
     public String cadastro(@PathVariable ("idRepresentante") Long idRepresentante, Model model) {
         model.addAttribute("pedido", new Pedido());
+        model.addAttribute("representantes", representanteService.findALL());
         model.addAttribute("idRepresentante", idRepresentante);
         model.addAttribute("clientes", clienteService.findALL());
         model.addAttribute("produtos", produtoService.findALL());
@@ -85,6 +86,7 @@ public class PedidoViewController {
     @GetMapping(path = "/pedido/{id}")
     public String alterar(@PathVariable("idRepresentante") Long idRepresentante, @PathVariable("id") Long id, Model model) {
         model.addAttribute("pedido",service.findById(id));
+        model.addAttribute("representantes", representanteService.findALL());
         model.addAttribute("idRepresentante",idRepresentante);
         model.addAttribute("clientes", clienteService.findALL());
         model.addAttribute("produtos", produtoService.findALL());
@@ -96,7 +98,7 @@ public class PedidoViewController {
             @PathVariable("id") Long id,
             @Valid @ModelAttribute Pedido pedido,
             BindingResult result, Model model) {
-
+        model.addAttribute("representantes", representanteService.findALL());
         model.addAttribute("idRepresentante",idRepresentante);
         model.addAttribute("clientes", clienteService.findALL());
         model.addAttribute("produtos", produtoService.findALL());
