@@ -21,7 +21,7 @@
                     <div class="card-text">
                         <a th:href="@{~/representantes/{idRepresentante}/pedidos(idRepresentante = ${representante.idRepresentante})}" class="btn btn-warning">Pedidos</a>
                         <a th:href="@{'~/representantes/representante/'+${representante.idRepresentante}}" class="btn btn-warning">Editar</a>
-                        <a th:href="@{'~/representantes/'+${representante.idRepresentante}+'/deletar'}" class="btn btn-danger" onclick="return confirm('Deseja realmente excluir esse representante?')">Excluir</a>
+                        <a th:if="${#lists.size(representante.pedidos)==0}" th:href="@{'~/representantes/'+${representante.idRepresentante}+'/deletar'}" class="btn btn-danger" onclick="return confirm('Deseja realmente excluir esse representante?')">Excluir</a>
                     </div>
                 </div>
             </div>

@@ -28,7 +28,7 @@ public class Produto implements Serializable{
     @Length(min = 2, max = 30, message = "Nome do produto deve ter entre 2 e 30 caracteres.")
     private String nome;
     @Column (nullable = false, scale = 2, precision = 2)
-    @Digits (integer = 5, fraction = 1, message = "Dose inválida.")
+    @Digits (integer = 5, fraction = 2, message = "Dose inválida.")
     @Positive (message = "Não coloque valores negativos.")
     private Double dose = 1.0;
     @Column (nullable = false, length = 100)
