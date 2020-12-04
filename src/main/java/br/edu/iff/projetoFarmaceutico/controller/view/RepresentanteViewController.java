@@ -1,6 +1,7 @@
 package br.edu.iff.projetoFarmaceutico.controller.view;
 
 import br.edu.iff.projetoFarmaceutico.model.Representante;
+import br.edu.iff.projetoFarmaceutico.repository.PermissaoRepository;
 import br.edu.iff.projetoFarmaceutico.service.RepresentanteService;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class RepresentanteViewController {
 
     @Autowired
     private RepresentanteService service;
+    @Autowired
+    private PermissaoRepository permissaoRepo;
 
     @GetMapping
     public String getAll(Model model) {
@@ -34,11 +37,15 @@ public class RepresentanteViewController {
     @GetMapping(path = "/representante")
     public String cadastro(Model model) {
         model.addAttribute("representante", new Representante());
+        model.addAttribute("permissoes", permissaoRepo.findAll());
         return "formRepresentante";
     }
 
     @PostMapping(path = "/representante")
     public String save(@Valid @ModelAttribute Representante representante, BindingResult result,@RequestParam("confirmarSenha") String confirmarSenha, Model model) {
+
+        //Valores a serem retornados
+        model.addAttribute("permissoes", permissaoRepo.findAll());
 
         if (result.hasErrors()) {
             model.addAttribute("msgErros", result.getAllErrors());
@@ -65,12 +72,17 @@ public class RepresentanteViewController {
     @GetMapping(path = "/representante/{id}")
     public String alterar(@PathVariable("id")Long id, Model model) {
         model.addAttribute("representante",service.findById(id));
+        model.addAttribute("permissoes", permissaoRepo.findAll());
         return "formRepresentante";
     }
     
     @PostMapping(path = "/representante/{id}")
     public String update(@Valid @ModelAttribute Representante representante, BindingResult result, @PathVariable("id")Long id, Model model) {
 
+        //Valores a serem retornados
+        model.addAttribute("permissoes", permissaoRepo.findAll());
+
+        
         List<FieldError> list = new ArrayList<>();
         for(FieldError fe : result.getFieldErrors()){
             if(!fe.getField().equals("senha")){

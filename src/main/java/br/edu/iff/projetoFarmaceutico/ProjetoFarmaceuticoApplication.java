@@ -2,18 +2,22 @@ package br.edu.iff.projetoFarmaceutico;
 
 import br.edu.iff.projetoFarmaceutico.model.Cliente;
 import br.edu.iff.projetoFarmaceutico.model.Pedido;
+import br.edu.iff.projetoFarmaceutico.model.Permissao;
 import br.edu.iff.projetoFarmaceutico.model.Produto;
 import br.edu.iff.projetoFarmaceutico.model.Representante;
 import br.edu.iff.projetoFarmaceutico.repository.ClienteRepository;
 import br.edu.iff.projetoFarmaceutico.repository.PedidoRepository;
+import br.edu.iff.projetoFarmaceutico.repository.PermissaoRepository;
 import br.edu.iff.projetoFarmaceutico.repository.ProdutoRepository;
 import br.edu.iff.projetoFarmaceutico.repository.RepresentanteRepository;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class ProjetoFarmaceuticoApplication implements CommandLineRunner{
@@ -26,6 +30,8 @@ public class ProjetoFarmaceuticoApplication implements CommandLineRunner{
     private ClienteRepository clienteRepo;
     @Autowired
     private PedidoRepository pedidoRepo;
+    @Autowired
+    private PermissaoRepository permissaoRepo;
     
     public static void main(String[] args) {
         SpringApplication.run(ProjetoFarmaceuticoApplication.class, args);
@@ -33,12 +39,21 @@ public class ProjetoFarmaceuticoApplication implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-                
+        //Permissão
+
+        Permissao p1 = new Permissao();
+        p1.setNome("ADMIN");
+        Permissao p2 = new Permissao();
+        p2.setNome("FUNC");
+        permissaoRepo.saveAll(List.of(p1,p2));
+        
+        
         //Representante
         Representante r1 = new Representante();
+        r1.setPermissoes(List.of(p1));
         r1.setNome("Rafael");
         r1.setEmail("rafael@hotmail.com");
-        r1.setSenha("123rafaEl*");
+        r1.setSenha(new BCryptPasswordEncoder().encode("123rafaEl*"));
                 
         representanteRepo.save(r1);
         
@@ -58,26 +73,26 @@ public class ProjetoFarmaceuticoApplication implements CommandLineRunner{
         produtoRepo.save(prod1);
         
         //Pedido
-        Pedido p1 = new Pedido();
-        p1.setQuantProdutos(4);
+        Pedido pe1 = new Pedido();
+        pe1.setQuantProdutos(4);
         Calendar data = new GregorianCalendar();
         data.set(2020, 4, 23, 16, 35, 00);
-        p1.setDataPedido(data);
-        p1.setCliente(c1);
-        p1.setProduto(prod1);
-        p1.setRepresentante(r1);
+        pe1.setDataPedido(data);
+        pe1.setCliente(c1);
+        pe1.setProduto(prod1);
+        pe1.setRepresentante(r1);
                 
-        Pedido p2 = new Pedido();
-        p2.setQuantProdutos(2);
+        Pedido pe2 = new Pedido();
+        pe2.setQuantProdutos(2);
         Calendar data2 = new GregorianCalendar();
         data2.set(2020, 4, 25, 13, 20, 00);
-        p2.setDataPedido(data2);
-        p2.setCliente(c1);
-        p2.setProduto(prod1);
-        p2.setRepresentante(r1);
+        pe2.setDataPedido(data2);
+        pe2.setCliente(c1);
+        pe2.setProduto(prod1);
+        pe2.setRepresentante(r1);
         
-        pedidoRepo.save(p1);
-        pedidoRepo.save(p2);
+        pedidoRepo.save(pe1);
+        pedidoRepo.save(pe2);
               
                 
     }

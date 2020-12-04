@@ -10,11 +10,14 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
 
@@ -44,7 +47,10 @@ public class Representante implements Serializable{
     @JsonIgnore
     @OneToMany(mappedBy = "representante")
     private List<Pedido> pedidos = new ArrayList<>();
-
+    @ManyToMany(fetch=FetchType.EAGER)
+    @Size(min = 1, message = "Funcionário deve ter no mínimo 1 permissao")
+    private List<Permissao> permissoes = new ArrayList<>();
+    
     public Representante() {
     }
     
@@ -112,6 +118,14 @@ public class Representante implements Serializable{
             return false;
         }
         return true;
+    }
+
+    public List<Permissao> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(List<Permissao> permissoes) {
+        this.permissoes = permissoes;
     }
     
     

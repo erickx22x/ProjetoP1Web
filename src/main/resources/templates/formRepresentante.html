@@ -34,8 +34,18 @@
                         <div class="form-group col-md-6">
                             <label for="confirmarSenha">Confirmar Senha:</label>
                             <input name="confirmarSenha" type="password" class="form-control"  minlength="8" required="required"/>
-                        </div>   
-
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label>Permissões:</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-check form-check-inline" th:each="permissao,i : ${permissoes}">
+                            <input class="form-check-input" type="checkbox" th:name="${'permissoes['+i.index+'].id'}"  th:value="${permissao.id}" th:checked="${#lists.contains(representante.permissoes, permissao)? 'checked' : false}" />
+                            <label class="form-check-label" th:text="${permissao.nome}">t</label>
+                        </div>
                     </div>
 
 
