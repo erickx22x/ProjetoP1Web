@@ -28,6 +28,10 @@ public class RepresentanteService {
         return repo.findAll();
     }
 
+    public Representante findByEmail(String email) {
+        return repo.findByEmail(email);
+    }
+
     public Representante findById(Long id) {
         Optional<Representante> result = repo.findById(id);
         if (result.isEmpty()) {
@@ -105,12 +109,13 @@ public class RepresentanteService {
         }
     }
 
-    private void alterarSenha(Representante obj, String senhaAtual, String novaSenha, String confirmarSenha) {
-        if (!senhaAtual.isBlank() && !novaSenha.isBlank() && !confirmarSenha.isBlank()) {
-            if (!senhaAtual.equals(obj.getSenha())) {
+    private void alterarSenha(Representante obj, String senhaAtual, String novaSenha, String confirmarNovaSenha) {
+        BCryptPasswordEncoder crypt = new BCryptPasswordEncoder();
+        if (!senhaAtual.isBlank() && !novaSenha.isBlank() && !confirmarNovaSenha.isBlank()) {
+            if (!crypt.matches(senhaAtual, obj.getSenha())) {
                 throw new RuntimeException("Senha atual está incorreta.");
             }
-            if (!novaSenha.equals(confirmarSenha)) {
+            if (!novaSenha.equals(confirmarNovaSenha)) {
                 throw new RuntimeException("Nova Senha e Confirmar Nova Senha não conferem.");
             }
             obj.setSenha(new BCryptPasswordEncoder().encode(novaSenha));

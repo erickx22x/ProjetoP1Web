@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragmentos :: imports-css(title='Meus Dados')}">
+        <title>title</title>
+    </head>
+    <body>
+        <div th:replace="~{fragmentos :: barramenu(pagina='meusdados')}"/>
+        <div class="container" style="width: 60%; margin-top: 20px">
+            <div class="card-header">
+                <h4>Meus Dados
+                    <a class="btn btn-primary float-right" th:href="@{~/}" role="button">voltar</a>
+                </h4>
+            </div>
+            <div th:replace="~{fragmentos::mensagens}"></div>
+
+            <form th:object="${representante}" th:action="@{~/representantes/meusdados}" method="post" class="card-body">
+                <input type="hidden" th:field="*{idRepresentante}"/>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="nome">Nome:</label>
+                        <input th:field="*{nome}" type="text" class="form-control" placeholder="Nome" required="required" maxlength="30"/>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="email">E-mail:</label>
+                        <input th:field=" *{email}" pattern="[\w\S]+[@]+[\w\S]+[.]+[\w\S]+" maxlength="55" type="text" class="form-control" placeholder="E-mail" required="required" readonly="readonly"/>
+                    </div>
+                    <div class="form-row">
+                        <small class="form-text" style="color: #ff6666"> * Deixe os campos vazios se não quiser trocar sua senha.</small>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="senhaAtual">Senha atual:</label>
+                            <input th:name="senhaAtual" type="password" class="form-control" minlength="8"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="novaSenha">Nova senha:</label>
+                            <input name="novaSenha" type="password" class="form-control"  minlength="8"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="confirmarNovaSenha">Confirmar nova senha:</label>
+                            <input name="confirmarNovaSenha" type="password" class="form-control"  minlength="8"/>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-success" value="salvar"/>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div th:replace="~{fragmentos :: imports-js}"/>
+    </body>
+</html>
