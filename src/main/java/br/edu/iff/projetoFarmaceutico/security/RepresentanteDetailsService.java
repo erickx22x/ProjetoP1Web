@@ -24,7 +24,7 @@ public class RepresentanteDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Representante representante = repo.findByEmail(email);
         if(representante ==null){
-            throw new UsernameNotFoundException("Funcionário não encontra com esse email:"+email);
+            throw new UsernameNotFoundException("Representante não encontra com esse email:"+email);
         }
         return new User(representante.getEmail(), representante.getSenha(), getAuthorities(representante.getPermissoes()));
     }

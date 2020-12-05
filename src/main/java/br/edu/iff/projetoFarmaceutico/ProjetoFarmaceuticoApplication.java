@@ -44,7 +44,7 @@ public class ProjetoFarmaceuticoApplication implements CommandLineRunner{
         Permissao p1 = new Permissao();
         p1.setNome("ADMIN");
         Permissao p2 = new Permissao();
-        p2.setNome("FUNC");
+        p2.setNome("REPR");
         permissaoRepo.saveAll(List.of(p1,p2));
         
         

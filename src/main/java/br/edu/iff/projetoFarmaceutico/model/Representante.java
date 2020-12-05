@@ -32,7 +32,7 @@ public class Representante implements Serializable{
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Senha obrigatória.")
     @Length(min = 8,message = "Senha deve ter no mínimo 8 caracteres.")
-    @PasswordValidation(message="Senha inválida.")
+    @PasswordValidation
     private String senha;
     @Column(nullable = false, length = 30)
     @NotBlank(message = "Nome do representante é obrigatório.")
