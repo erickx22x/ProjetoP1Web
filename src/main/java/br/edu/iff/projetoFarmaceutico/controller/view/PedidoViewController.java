@@ -1,6 +1,7 @@
 package br.edu.iff.projetoFarmaceutico.controller.view;
 
 import br.edu.iff.projetoFarmaceutico.model.Pedido;
+import br.edu.iff.projetoFarmaceutico.model.Representante;
 import br.edu.iff.projetoFarmaceutico.service.ClienteService;
 import br.edu.iff.projetoFarmaceutico.service.PedidoService;
 import br.edu.iff.projetoFarmaceutico.service.ProdutoService;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,18 +44,20 @@ public class PedidoViewController {
     }
 
     @GetMapping(path = "/pedido")
-    public String cadastro(@PathVariable ("idRepresentante") Long idRepresentante, Model model) {
+    public String cadastro(@PathVariable ("idRepresentante") Long idRepresentante, Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("pedido", new Pedido());
         model.addAttribute("representantes", representanteService.findALL());
         model.addAttribute("idRepresentante", idRepresentante);
         model.addAttribute("clientes", clienteService.findALL());
         model.addAttribute("produtos", produtoService.findALL());
+        Representante r = representanteService.findByEmail(user.getUsername());
+        model.addAttribute("representanteLogado", r);
         return "formPedido";
     }
 
     @PostMapping(path = "/pedido")
     public String save(@PathVariable ("idRepresentante") Long idRepresentante,
-            @Valid @ModelAttribute Pedido pedido,
+            @ModelAttribute Pedido pedido,
             BindingResult result, Model model){
         
         model.addAttribute("idRepresentante", idRepresentante);
@@ -73,6 +78,7 @@ public class PedidoViewController {
         pedido.setIdPedido(null);
         
         try {
+            pedido.setRepresentante(representanteService.findById(idRepresentante));
             service.save(pedido);
             model.addAttribute("msgSucesso", "Pedido cadastrado com sucesso.");
             model.addAttribute("pedido", new Pedido());

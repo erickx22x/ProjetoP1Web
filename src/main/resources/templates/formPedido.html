@@ -17,10 +17,10 @@
             <form th:object="${pedido}" th:action="@{~/representantes/{representante}/pedidos/pedido/{id}(id=${pedido.idPedido}, representante=${idRepresentante})}" method="post" class="card-body">
                 <input type="hidden" th:field="*{idPedido}"/>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                   <div class="form-group col-md-6" th:if="${pedido.idPedido!=null}">
                         <label>Representante:</label>
                         <select class="form-control" th:field="*{representante.idRepresentante}">
-                            <option th:each="representante : ${representantes}" th:text="${representante.nome}" th:value="${representante.idRepresentante}"></option>
+                        <option th:each="representante : ${representantes}" th:text="${representante.nome}" th:value="${representante.idRepresentante}"></option>
                         </select>
                     </div>
 
